@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>R.E.P - Clen Data for Business</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 300px;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 8px 20px;
+            background-color: #00050a;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Consulta de Saldo Solana</h2>
+    <label for="walletAddress">Your Wallet:</label><br>
+    <input type="text" id="walletAddress" placeholder="Insira o endereço da carteira"><br>
+    <button onclick="checkBalance()">Consultar Saldo</button>
+    <div id="result"></div>
+
+    <script>
+        async function checkBalance() {
+            const walletAddress = document.getElementById("walletAddress").value.trim();
+
+            // Validar se o endereço está preenchido
+            if (!walletAddress) {
+                alert("Por favor, insira um endereço de carteira.");
+                return;
+            }
+
+            // Chamar a API Python
+            const response = await fetch(`http://localhost:127.0.0.1:5000/balance?address=${walletAddress}`);
+            const data = await response.json();
+
+            // Mostrar o resultado
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `<p>Saldo para o endereço ${walletAddress}: ${data.balance} SOL</p>`;
+        }
+    </script>
+</body>
+</html>
